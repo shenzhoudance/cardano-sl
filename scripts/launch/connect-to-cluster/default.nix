@@ -13,6 +13,7 @@
 , additionalNodeArgs ? ""
 , confKey ? null
 , relays ? null
+, keepCA ? false
 }:
 
 with localLib;
@@ -43,6 +44,7 @@ let
     explorer = "${iohkPkgs.cardano-sl-explorer-static}/bin/cardano-explorer";
   };
   ifWallet = localLib.optionalString (executable == "wallet");
+  ifKeepCA = localLib.optionalString (keepCA);
   iohkPkgs = import ./../../../default.nix { inherit config system pkgs gitrev; };
   src = ./../../../.;
   topologyFileDefault = pkgs.writeText "topology-${environment}" ''
@@ -82,10 +84,12 @@ in pkgs.writeScript "${executable}-connect-to-${environment}" ''
   export LANG=en_GB.UTF-8
   if [ ! -d ${stateDir}/tls ]; then
     mkdir -p ${stateDir}/tls/server && mkdir -p ${stateDir}/tls/client
+    ${ifKeepCA "mkdir -p ${stateDir}/tls/ca"}
     ${iohkPkgs.cardano-sl-tools}/bin/cardano-x509-certificates   \
       --server-out-dir ${stateDir}/tls/server                    \
       --clients-out-dir ${stateDir}/tls/client                   \
       --configuration-key ${environments.${environment}.confKey} \
+      ${ifKeepCA "--ca-out-dir ${stateDir}/tls/ca \\"}
       --configuration-file ${configFiles}/configuration.yaml
   fi
   ''}

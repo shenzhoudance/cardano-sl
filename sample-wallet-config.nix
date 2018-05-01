@@ -17,6 +17,11 @@
   ## double quotes.
   #stateDir = "./state-wallet-mainnet";
 
+  ## Preserve CA Key generated for wallet
+  ## Useful for exchanges that want to issue individual client certificates
+  ## instead of sharing one.
+  #keepCA = false;
+
   ## Used to connect to a custom set of nodes on the network. When
   ## unspecified an appropriate default topology is generated.
   #topologyFile = ./topology.yaml;
