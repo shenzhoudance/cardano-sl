@@ -403,7 +403,7 @@ data AssuranceLevel =
 instance Arbitrary AssuranceLevel where
     arbitrary = elements [minBound .. maxBound]
 
-deriveJSON Serokell.defaultOptions { constructorTagModifier = toString . toLower . dropEnd 9 . fromString
+deriveJSON Serokell.defaultOptions { A.constructorTagModifier = toString . toLower . dropEnd 9 . fromString
                                    } ''AssuranceLevel
 
 instance ToSchema AssuranceLevel where
@@ -452,7 +452,7 @@ instance Arbitrary WalletOperation where
     arbitrary = elements [minBound .. maxBound]
 
 -- Drops the @Wallet@ suffix.
-deriveJSON Serokell.defaultOptions  { constructorTagModifier = reverse . drop 6 . reverse . map C.toLower
+deriveJSON Serokell.defaultOptions  { A.constructorTagModifier = reverse . drop 6 . reverse . map C.toLower
                                     } ''WalletOperation
 
 instance ToSchema WalletOperation where
@@ -1212,7 +1212,7 @@ instance Arbitrary TransactionType where
   arbitrary = elements [minBound .. maxBound]
 
 -- Drops the @Transaction@ suffix.
-deriveJSON defaultOptions { constructorTagModifier = reverse . drop 11 . reverse . map C.toLower
+deriveJSON defaultOptions { A.constructorTagModifier = reverse . drop 11 . reverse . map C.toLower
                           } ''TransactionType
 
 instance ToSchema TransactionType where
@@ -1244,7 +1244,7 @@ instance Arbitrary TransactionDirection where
   arbitrary = elements [minBound .. maxBound]
 
 -- Drops the @Transaction@ suffix.
-deriveJSON defaultOptions { constructorTagModifier = reverse . drop 11 . reverse . map C.toLower
+deriveJSON defaultOptions { A.constructorTagModifier = reverse . drop 11 . reverse . map C.toLower
                           } ''TransactionDirection
 
 instance ToSchema TransactionDirection where
